@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import random
 
 class Calculator:
     def __init__(self, root):
@@ -19,7 +19,7 @@ class Calculator:
             ['4', '5', '6', '*'],
             ['1', '2', '3', '-'],
             ['0', '.', 'C', '+'],
-            ['=']
+            ['rand', '=']
         ]
 
         for row in buttons:
@@ -42,11 +42,20 @@ class Calculator:
                 self.expression = str(eval(self.expression))
             except Exception:
                 self.expression = "에러"
+        elif char == 'rand':
+            self.generate_random()
         else:
             self.expression += str(char)
 
         self.entry.delete(0, tk.END)
         self.entry.insert(tk.END, self.expression)
 
+    def generate_random(self):
+        rand_value = random.random()
 
-
+        if self.expression == "" or not self.expression[-1].isdigit():
+            # 식이 비어있거나 마지막 문자가 연산자면 새로 랜덤값 추가
+            self.expression += str(rand_value)
+        else:
+            # 마지막 문자가 숫자면 새로운 값으로 초기화
+            self.expression = str(rand_value)
