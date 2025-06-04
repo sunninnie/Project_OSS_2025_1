@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import random
 
 class Calculator:
     def __init__(self, root):
@@ -13,13 +13,15 @@ class Calculator:
         self.entry = tk.Entry(root, font=("Arial", 24), justify="right")
         self.entry.pack(fill="both", ipadx=8, ipady=15, padx=10, pady=10)
 
+        self.button_widgets = []
+
         # 버튼 생성
         buttons = [
             ['7', '8', '9', '/'],
             ['4', '5', '6', '*'],
             ['1', '2', '3', '-'],
             ['0', '.', 'C', '+'],
-            ['=']
+            ['Theme', '=']
         ]
 
         for row in buttons:
@@ -42,11 +44,27 @@ class Calculator:
                 self.expression = str(eval(self.expression))
             except Exception:
                 self.expression = "에러"
+        elif char == 'Theme':  # Theme 버튼 처리 추가
+            self.change_theme()
         else:
             self.expression += str(char)
 
         self.entry.delete(0, tk.END)
         self.entry.insert(tk.END, self.expression)
 
+    # 테마 변경 함수 추가
+    def change_theme(self):
+        bg_color = self.random_color()
+        btn_color = self.random_color()
 
+        self.root.configure(bg=bg_color)
+        self.entry.configure(bg=bg_color, fg='black')
+
+        for btn in self.button_widgets:
+            btn.configure(bg=btn_color, fg='black')
+
+    # 랜덤 색상 생성 함수 추가
+    def random_color(self):
+        r = lambda: random.randint(100, 255)
+        return f'#{r():02x}{r():02x}{r():02x}'
 
