@@ -19,7 +19,7 @@ class Calculator:
             ['4', '5', '6', '*'],
             ['1', '2', '3', '-'],
             ['0', '.', 'C', '+'],
-            ['=']
+            ['VAT', '=']
         ]
 
         for row in buttons:
@@ -42,11 +42,19 @@ class Calculator:
                 self.expression = str(eval(self.expression))
             except Exception:
                 self.expression = "에러"
+        elif char == 'VAT':
+            self.apply_vat()
         else:
             self.expression += str(char)
 
         self.entry.delete(0, tk.END)
         self.entry.insert(tk.END, self.expression)
 
-
+    def apply_vat(self):
+        try:
+            base_value = eval(self.expression)
+            vat_value = base_value * 1.1  # 10% VAT
+            self.expression = str(int(round(vat_value)))  # 정수로 반올림 처리
+        except Exception:
+            self.expression = "에러"
 
